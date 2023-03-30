@@ -1,4 +1,4 @@
-module github.com/Logiase/MiraiGo-Template
+module github.com/hgcncn/MiraiGo-Template
 
 go 1.20
 

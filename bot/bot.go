@@ -16,9 +16,9 @@ import (
 	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
 	"github.com/tuotoo/qrcode"
 
-	"github.com/Logiase/MiraiGo-Template/config"
-	"github.com/Logiase/MiraiGo-Template/utils"
 	"github.com/Mrs4s/MiraiGo/client"
+	"github.com/hgcncn/MiraiGo-Template/config"
+	"github.com/hgcncn/MiraiGo-Template/utils"
 	"github.com/sirupsen/logrus"
 )
 
