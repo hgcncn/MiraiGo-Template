@@ -113,9 +113,9 @@ func GenRandomDevice() {
 }
 
 // SaveToken 会话缓存
-func SaveToken() {
-	AccountToken := Instance.GenToken()
-	_ = os.WriteFile("session.token", AccountToken, 0o644)
+func GetToken() []byte {
+	accountToken := Instance.GenToken()
+	return accountToken
 }
 
 type LoginMethod string

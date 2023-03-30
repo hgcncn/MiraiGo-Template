@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/base64"
+	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 
@@ -26,14 +28,15 @@ func main() {
 	// 使用协议
 	// 不同协议可能会有部分功能无法使用
 	// 在登陆前切换协议
-	bot.UseProtocol(bot.AndroidPhone)
+	bot.UseProtocol(bot.AndroidWatch)
 
 	// 登录
 	err := bot.Login()
 	if err != nil {
 		panic(err)
 	}
-	//bot.SaveToken() // 存储快速登录使用的 Token, 如需使用快捷登录请解除本条注释
+	token := base64.StdEncoding.EncodeToString(bot.GetToken()) // 存储快速登录使用的 Token, 如需使用快捷登录请解除本条注释
+	logrus.Infof("token: %s", token)
 
 	// 刷新好友列表，群列表
 	bot.RefreshList()
