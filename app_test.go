@@ -7,5 +7,6 @@ import (
 )
 
 func TestDevice(t *testing.T) {
-	bot.GenRandomDevice()
+	b := &bot.Bot{}
+	b.GenRandomDevice()
 }
