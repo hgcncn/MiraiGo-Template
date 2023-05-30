@@ -15,6 +15,6 @@ const (
 // 不同协议会有部分功能无法使用
 // 默认为 AndroidPad
 func (b *Bot) UseProtocol(p protocol) {
-	device := b.client.Device()
+	device := b.Client.Device()
 	device.Protocol = client.ClientProtocol(p)
 }

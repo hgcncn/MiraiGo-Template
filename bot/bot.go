@@ -24,7 +24,7 @@ import (
 
 // Bot 全局 Bot
 type Bot struct {
-	client *client.QQClient
+	Client *client.QQClient
 
 	start bool
 }
@@ -39,7 +39,7 @@ type InitOption struct {
 
 func InitWithOption(option InitOption) (*Bot, error) {
 	instance := &Bot{
-		client: client.NewClient(
+		Client: client.NewClient(
 			option.Account,
 			option.Password,
 		),
@@ -51,7 +51,7 @@ func InitWithOption(option InitOption) (*Bot, error) {
 	if err != nil {
 		return nil, errors.Errorf("failed to apply device.json with err:%s", err)
 	}
-	instance.client.UseDevice(device)
+	instance.Client.UseDevice(device)
 	return instance, nil
 }
 
@@ -62,7 +62,7 @@ func (b *Bot) UseDevice(device []byte) error {
 	if err != nil {
 		return err
 	}
-	b.client.UseDevice(deviceInfo)
+	b.Client.UseDevice(deviceInfo)
 	return nil
 }
 
@@ -82,7 +82,7 @@ func (b *Bot) GenRandomDevice() {
 
 // SaveToken 会话缓存
 func (b *Bot) GetToken() []byte {
-	accountToken := b.client.GenToken()
+	accountToken := b.Client.GenToken()
 	return accountToken
 }
 
@@ -106,7 +106,7 @@ func (b *Bot) Login() error {
 		}
 		tokenData = token
 	}
-	fmt.Println(b.client.Uin)
+	fmt.Println(b.Client.Uin)
 	var loginMethodValue = config.GlobalConfig.GetString("bot.login-method")
 	return b.LoginWithOption(LoginOption{
 		LoginMethod:              LoginMethod(loginMethodValue),
@@ -128,14 +128,14 @@ func (b *Bot) LoginWithOption(option LoginOption) error {
 			var token = option.Token
 			r := binary.NewReader(token)
 			cu := r.ReadInt64()
-			if b.client.Uin != 0 {
-				if cu != b.client.Uin && !option.UseTokenWhenUnmatchedUin {
-					return fmt.Errorf("配置文件内的QQ号 (%v) 与会话缓存内的QQ号 (%v) 不相同", b.client.Uin, cu)
+			if b.Client.Uin != 0 {
+				if cu != b.Client.Uin && !option.UseTokenWhenUnmatchedUin {
+					return fmt.Errorf("配置文件内的QQ号 (%v) 与会话缓存内的QQ号 (%v) 不相同", b.Client.Uin, cu)
 				}
 			}
-			if err := b.client.TokenLogin(token); err != nil {
+			if err := b.Client.TokenLogin(token); err != nil {
 				time.Sleep(time.Second)
-				b.client.Disconnect()
+				b.Client.Disconnect()
 				return errors.Errorf("恢复会话失败(%s)", err)
 			} else {
 				logger.Infof("快速恢复登录成功")
@@ -160,7 +160,7 @@ func (b *Bot) LoginWithOption(option LoginOption) error {
 
 // CommonLogin 普通账号密码登录
 func (b *Bot) CommonLogin() error {
-	res, err := b.client.Login()
+	res, err := b.Client.Login()
 	if err != nil {
 		return err
 	}
@@ -169,7 +169,7 @@ func (b *Bot) CommonLogin() error {
 
 // QrcodeLogin 扫码登陆
 func (b *Bot) QrcodeLogin() error {
-	rsp, err := b.client.FetchQRCode()
+	rsp, err := b.Client.FetchQRCode()
 	if err != nil {
 		return err
 	}
@@ -179,21 +179,21 @@ func (b *Bot) QrcodeLogin() error {
 	}
 	_ = os.WriteFile("qrcode.png", rsp.ImageData, 0o644)
 	defer func() { _ = os.Remove("qrcode.png") }()
-	if b.client.Uin != 0 {
-		logger.Infof("请使用账号 %v 登录手机QQ扫描二维码 (qrcode.png) : ", b.client.Uin)
+	if b.Client.Uin != 0 {
+		logger.Infof("请使用账号 %v 登录手机QQ扫描二维码 (qrcode.png) : ", b.Client.Uin)
 	} else {
 		logger.Infof("请使用手机QQ扫描二维码 (qrcode.png) : ")
 	}
 	time.Sleep(time.Second)
 	qrcodeTerminal.New().Get(fi.Content).Print()
-	s, err := b.client.QueryQRCodeStatus(rsp.Sig)
+	s, err := b.Client.QueryQRCodeStatus(rsp.Sig)
 	if err != nil {
 		return err
 	}
 	prevState := s.State
 	for {
 		time.Sleep(time.Second)
-		s, _ = b.client.QueryQRCodeStatus(rsp.Sig)
+		s, _ = b.Client.QueryQRCodeStatus(rsp.Sig)
 		if s == nil {
 			continue
 		}
@@ -209,7 +209,7 @@ func (b *Bot) QrcodeLogin() error {
 		case client.QRCodeWaitingForConfirm:
 			logger.Infof("扫码成功, 请在手机端确认登录.")
 		case client.QRCodeConfirmed:
-			res, err := b.client.QRCodeLogin(s.LoginInfo)
+			res, err := b.Client.QRCodeLogin(s.LoginInfo)
 			if err != nil {
 				return err
 			}
@@ -261,9 +261,9 @@ func (b *Bot) loginResponseProcessor(res *client.LoginResponse) error {
 		switch res.Error {
 		case client.SliderNeededError:
 			logger.Warnf("登录需要滑条验证码, 请使用手机QQ扫描二维码以继续登录.")
-			b.client.Disconnect()
-			b.client.Release()
-			b.client = client.NewClientEmpty()
+			b.Client.Disconnect()
+			b.Client.Release()
+			b.Client = client.NewClientEmpty()
 			return b.QrcodeLogin()
 		case client.NeedCaptcha:
 			logger.Warnf("登录需要验证码.")
@@ -271,18 +271,18 @@ func (b *Bot) loginResponseProcessor(res *client.LoginResponse) error {
 			logger.Warnf("请输入验证码 (captcha.jpg)： (Enter 提交)")
 			text = readLine()
 			_ = os.Remove("captcha.jpg")
-			res, err = b.client.SubmitCaptcha(text, res.CaptchaSign)
+			res, err = b.Client.SubmitCaptcha(text, res.CaptchaSign)
 			continue
 		case client.SMSNeededError:
 			logger.Warnf("账号已开启设备锁, 按 Enter 向手机 %v 发送短信验证码.", res.SMSPhone)
 			readLine()
-			if !b.client.RequestSMS() {
+			if !b.Client.RequestSMS() {
 				logger.Warnf("发送验证码失败，可能是请求过于频繁.")
 				return errors.WithStack(ErrSMSRequestError)
 			}
 			logger.Warn("请输入短信验证码： (Enter 提交)")
 			text = readLine()
-			res, err = b.client.SubmitSMS(text)
+			res, err = b.Client.SubmitSMS(text)
 			continue
 		case client.SMSOrVerifyNeededError:
 			logger.Warnf("账号已开启设备锁，请选择验证方式:")
@@ -291,13 +291,13 @@ func (b *Bot) loginResponseProcessor(res *client.LoginResponse) error {
 			logger.Warn("请输入(1 - 2) (将在10秒后自动选择2)：")
 			text = readLineTimeout(time.Second*10, "2")
 			if strings.Contains(text, "1") {
-				if !b.client.RequestSMS() {
+				if !b.Client.RequestSMS() {
 					logger.Warnf("发送验证码失败，可能是请求过于频繁.")
 					return errors.WithStack(ErrSMSRequestError)
 				}
 				logger.Warn("请输入短信验证码： (Enter 提交)")
 				text = readLine()
-				res, err = b.client.SubmitSMS(text)
+				res, err = b.Client.SubmitSMS(text)
 				continue
 			}
 			fallthrough
@@ -325,17 +325,17 @@ func (b *Bot) loginResponseProcessor(res *client.LoginResponse) error {
 // RefreshList 刷新联系人
 func (b *Bot) RefreshList() {
 	logger.Info("start reload friends list")
-	err := b.client.ReloadFriendList()
+	err := b.Client.ReloadFriendList()
 	if err != nil {
 		logger.WithError(err).Error("unable to load friends list")
 	}
-	logger.Infof("load %d friends", len(b.client.FriendList))
+	logger.Infof("load %d friends", len(b.Client.FriendList))
 	logger.Info("start reload groups list")
-	err = b.client.ReloadGroupList()
+	err = b.Client.ReloadGroupList()
 	if err != nil {
 		logger.WithError(err).Error("unable to load groups list")
 	}
-	logger.Infof("load %d groups", len(b.client.GroupList))
+	logger.Infof("load %d groups", len(b.Client.GroupList))
 }
 
 // StartService 启动服务
