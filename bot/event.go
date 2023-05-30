@@ -9,7 +9,7 @@ import (
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnPrivateMessage(f func(qqClient *client.QQClient, event *message.PrivateMessage)) {
-	bot.PrivateMessageEvent.Subscribe(f)
+	bot.Client.PrivateMessageEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
@@ -23,125 +23,125 @@ func (bot *Bot) OnPrivateMessageF(filter func(*message.PrivateMessage) bool, f f
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnTempMessage(f func(qqClient *client.QQClient, event *client.TempMessageEvent)) {
-	bot.TempMessageEvent.Subscribe(f)
+	bot.Client.TempMessageEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMessage(f func(qqClient *client.QQClient, event *message.GroupMessage)) {
-	bot.GroupMessageEvent.Subscribe(f)
+	bot.Client.GroupMessageEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnSelfPrivateMessage(f func(qqClient *client.QQClient, event *message.PrivateMessage)) {
-	bot.SelfPrivateMessageEvent.Subscribe(f)
+	bot.Client.SelfPrivateMessageEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnSelfGroupMessage(f func(qqClient *client.QQClient, event *message.GroupMessage)) {
-	bot.SelfGroupMessageEvent.Subscribe(f)
+	bot.Client.SelfGroupMessageEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMuted(f func(qqClient *client.QQClient, event *client.GroupMuteEvent)) {
-	bot.GroupMuteEvent.Subscribe(f)
+	bot.Client.GroupMuteEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMessageRecalled(f func(qqClient *client.QQClient, event *client.GroupMessageRecalledEvent)) {
-	bot.GroupMessageRecalledEvent.Subscribe(f)
+	bot.Client.GroupMessageRecalledEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnFriendMessageRecalled(f func(qqClient *client.QQClient, event *client.FriendMessageRecalledEvent)) {
-	bot.FriendMessageRecalledEvent.Subscribe(f)
+	bot.Client.FriendMessageRecalledEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupJoin(f func(qqClient *client.QQClient, event *client.GroupInfo)) {
-	bot.GroupJoinEvent.Subscribe(f)
+	bot.Client.GroupJoinEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupLeave(f func(qqClient *client.QQClient, event *client.GroupLeaveEvent)) {
-	bot.GroupLeaveEvent.Subscribe(f)
+	bot.Client.GroupLeaveEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMemberJoin(f func(qqClient *client.QQClient, event *client.MemberJoinGroupEvent)) {
-	bot.GroupMemberJoinEvent.Subscribe(f)
+	bot.Client.GroupMemberJoinEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMemberLeave(f func(qqClient *client.QQClient, event *client.MemberLeaveGroupEvent)) {
-	bot.GroupMemberLeaveEvent.Subscribe(f)
+	bot.Client.GroupMemberLeaveEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnMemberCardUpdated(f func(qqClient *client.QQClient, event *client.MemberCardUpdatedEvent)) {
-	bot.MemberCardUpdatedEvent.Subscribe(f)
+	bot.Client.MemberCardUpdatedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupNameUpdated(f func(qqClient *client.QQClient, event *client.GroupNameUpdatedEvent)) {
-	bot.GroupNameUpdatedEvent.Subscribe(f)
+	bot.Client.GroupNameUpdatedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupMemberPermissionChanged(f func(qqClient *client.QQClient, event *client.MemberPermissionChangedEvent)) {
-	bot.GroupMemberPermissionChangedEvent.Subscribe(f)
+	bot.Client.GroupMemberPermissionChangedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupInvited(f func(qqClient *client.QQClient, event *client.GroupInvitedRequest)) {
-	bot.GroupInvitedEvent.Subscribe(f)
+	bot.Client.GroupInvitedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnUserWantJoinGroup(f func(qqClient *client.QQClient, event *client.UserJoinGroupRequest)) {
-	bot.UserWantJoinGroupEvent.Subscribe(f)
+	bot.Client.UserWantJoinGroupEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnNewFriend(f func(qqClient *client.QQClient, event *client.NewFriendEvent)) {
-	bot.NewFriendEvent.Subscribe(f)
+	bot.Client.NewFriendEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnNewFriendRequest(f func(qqClient *client.QQClient, event *client.NewFriendRequest)) {
-	bot.NewFriendRequestEvent.Subscribe(f)
+	bot.Client.NewFriendRequestEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnDisconnected(f func(qqClient *client.QQClient, event *client.ClientDisconnectedEvent)) {
-	bot.DisconnectedEvent.Subscribe(f)
+	bot.Client.DisconnectedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupNotify(f func(qqClient *client.QQClient, event client.INotifyEvent)) {
-	bot.GroupNotifyEvent.Subscribe(f)
+	bot.Client.GroupNotifyEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnFriendNotify(f func(qqClient *client.QQClient, event client.INotifyEvent)) {
-	bot.FriendNotifyEvent.Subscribe(f)
+	bot.Client.FriendNotifyEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnMemberSpecialTitleUpdated(f func(qqClient *client.QQClient, event *client.MemberSpecialTitleUpdatedEvent)) {
-	bot.MemberSpecialTitleUpdatedEvent.Subscribe(f)
+	bot.Client.MemberSpecialTitleUpdatedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnGroupDigest(f func(qqClient *client.QQClient, event *client.GroupDigestEvent)) {
-	bot.GroupDigestEvent.Subscribe(f)
+	bot.Client.GroupDigestEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnOtherClientStatusChanged(f func(qqClient *client.QQClient, event *client.OtherClientStatusChangedEvent)) {
-	bot.OtherClientStatusChangedEvent.Subscribe(f)
+	bot.Client.OtherClientStatusChangedEvent.Subscribe(f)
 }
 
 // Deprecated: This function is designed to make the framework compatible with the old plug-in, and the newly developed plug-in should no longer use this method
 func (bot *Bot) OnOfflineFile(f func(qqClient *client.QQClient, event *client.OfflineFileEvent)) {
-	bot.OfflineFileEvent.Subscribe(f)
+	bot.Client.OfflineFileEvent.Subscribe(f)
 }
